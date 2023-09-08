@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-copyFile(path.join(__dirname, 'default'), path.join(__dirname, 'api'), 'items.json');
+copyFile(path.join(__dirname, 'default'), path.join(__dirname, 'api'), 'products.json');
 
 let fromDirPath = path.join(__dirname, 'default/img');
 let toDirPath = path.join(__dirname, 'wwwroot/img/');

@@ -4,19 +4,19 @@ const Response = require('../Response');
 const fs = require("fs");
 const path = require("path");
 
-class ItemController {
-    #items;
+class ProductController {
+    #products;
 
     constructor() {
         let baseUrl = `${process.env.SSL === 'true' ? 'https' : 'http'}://${process.env.ADDRESS}:${process.env.PORT}`;
 
-        let itemsPath = path.join(__dirname, 'items.json');
-        let itemsJson = fs.readFileSync(itemsPath)
+        let productsPath = path.join(__dirname, 'products.json');
+        let productsJson = fs.readFileSync(productsPath)
             .toString();
-        this.#items = JSON.parse(itemsJson ?? '[]');
+        this.#products = JSON.parse(productsJson ?? '[]');
 
-        for (const item of this.#items) {
-            item.img = item.img?.map(img => {
+        for (const product of this.#products) {
+            product.img = product.img?.map(img => {
                 if (img[0] === '/') {
                     return baseUrl + img;
                 }
@@ -26,11 +26,11 @@ class ItemController {
     }
 
     async getItems() {
-        return Response.ok(this.#items);
+        return Response.ok(this.#products);
     }
 
     async getItem(id) {
-        let item = this.#items.find(item => item.id === +id);
+        let item = this.#products.find(item => item.id.toString() === id);
         if (item == null) {
             return Response.error(404, `Item with id(${id}) not found`);
         }
@@ -38,4 +38,4 @@ class ItemController {
     }
 }
 
-module.exports = new ItemController();
+module.exports = new ProductController();

@@ -18,5 +18,5 @@
 
 ## Apis
 
-> GET /api/items\
-> GET /api/item/{id}
+> GET /api/products\
+> GET /api/product/{id}

@@ -8,7 +8,7 @@ const path = require("path");
 const fs = require("fs");
 
 const Response = require("./Response");
-const ItemController = require('./api/ItemController');
+const ProductController = require('./api/ProductController');
 
 {
     const app = express();
@@ -17,12 +17,12 @@ const ItemController = require('./api/ItemController');
     app.use(express.static(path.join(__dirname, 'wwwroot')));
     app.use(cors());
 
-    app.get("/api/items", async (req, res) => {
-        await interceptHttp(req, res, () => ItemController.getItems());
+    app.get("/api/products", async (req, res) => {
+        await interceptHttp(req, res, () => ProductController.getItems());
     });
 
-    app.get("/api/item/:id", async (req, res) => {
-        await interceptHttp(req, res, () => ItemController.getItem(req.params.id));
+    app.get("/api/product/:id", async (req, res) => {
+        await interceptHttp(req, res, () => ProductController.getItem(req.params.id));
     });
 
     app.post("/api/hello", express.raw({type: 'application/json'}), async (req, res) => {
