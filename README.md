@@ -7,6 +7,11 @@
 > npm ci\
 > npm run init
 
+## Config
+
+> /api/items.json - список товаров\
+> /wwwroot/* - статические файлы
+
 ## Start
 
 > npm run start
