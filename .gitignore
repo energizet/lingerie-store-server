@@ -1,3 +1,5 @@
 /node_modules
 .vs
 .idea
+/wwwroot/img/*
+/api/items.json

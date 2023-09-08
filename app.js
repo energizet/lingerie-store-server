@@ -10,41 +10,41 @@ const fs = require("fs");
 const Response = require("./Response");
 const ItemController = require('./api/ItemController');
 
-const httpPort = 3030;
+{
+    const app = express();
 
-const app = express();
+    app.use(express.json());
+    app.use(express.static(path.join(__dirname, 'wwwroot')));
+    app.use(cors());
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'http/public')));
-app.use(cors());
+    app.get("/api/items", async (req, res) => {
+        await interceptHttp(req, res, () => ItemController.getItems());
+    });
 
-app.get("/api/items", async (req, res) => {
-    await interceptHttp(req, res, ItemController.getItems);
-});
+    app.get("/api/item/:id", async (req, res) => {
+        await interceptHttp(req, res, () => ItemController.getItem(req.params.id));
+    });
 
-app.get("/api/item/:id", async (req, res) => {
-    await interceptHttp(req, res, () => ItemController.getItem(req.params.id));
-});
+    app.post("/api/hello", express.raw({type: 'application/json'}), async (req, res) => {
+        let body = req.body;
+        sendResponse(res, Response.ok(body));
+    });
 
-app.post("/api/hello", express.raw({type: 'application/json'}), async (req, res) => {
-    let body = req.body;
-    sendResponse(res, Response.ok(body));
-});
+    app.get('/*', (req, res, next) => {
+        let pathFile = path.join(__dirname, 'wwwroot', `${req.path}.html`);
+        if (fs.existsSync(pathFile)) {
+            res.end(fs.readFileSync(pathFile));
+            return;
+        }
 
-app.get('/*', (req, res, next) => {
-    let pathFile = path.join(__dirname, 'http/public', `${req.path}.html`);
-    if (fs.existsSync(pathFile)) {
-        res.end(fs.readFileSync(pathFile));
-        return;
-    }
+        next();
+    });
 
-    next();
-});
-
-app.listen(httpPort, '0.0.0.0', () => {
-    console.log(`HTTP listener started on port ${httpPort}`);
-    console.log(`http://localhost:${httpPort}`);
-});
+    app.listen(process.env.PORT, process.env.ADDRESS, () => {
+        console.log(`HTTP listener started on port ${process.env.PORT}`);
+        console.log(`${process.env.SSL === 'true' ? 'https' : 'http'}://${process.env.ADDRESS}:${process.env.PORT}`);
+    });
+}
 
 async function interceptHttp(req, res, callback) {
     try {
