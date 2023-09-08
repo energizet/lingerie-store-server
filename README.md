@@ -9,3 +9,8 @@
 ## Start
 
 > npm run start
+
+## Apis
+
+> GET /api/items\
+> GET /api/item/{id}
