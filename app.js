@@ -12,7 +12,7 @@ dotenv.config();
     const app = express();
 
     app.use(express.json());
-    app.use(express.static((new URL('wwwroot', import.meta.url)).href));
+    app.use(express.static('wwwroot'));
     app.use(cors());
 
     app.get("/api/products", async (req, res) => {
