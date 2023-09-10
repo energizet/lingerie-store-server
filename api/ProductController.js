@@ -7,7 +7,7 @@ class ProductController {
     constructor() {
         let baseUrl = `${process.env.SSL === 'true' ? 'https' : 'http'}://${process.env.ADDRESS}:${process.env.PORT}`;
 
-        let productsPath = new URL('./products.json',import.meta.url);
+        let productsPath = new URL('products.json', import.meta.url);
         let productsJson = fs.readFileSync(productsPath)
             .toString();
         this.#products = JSON.parse(productsJson ?? '[]');
