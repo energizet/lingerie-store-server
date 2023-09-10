@@ -1,5 +1,3 @@
-'use strict';
-
 class Response {
     meta = {
         status: 0,
@@ -45,4 +43,4 @@ class Response {
     }
 }
 
-module.exports = Response;
+export default Response;

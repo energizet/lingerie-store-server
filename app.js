@@ -1,20 +1,18 @@
-'use strict';
+import dotenv from "dotenv";
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
+import fs from 'fs';
 
-require('dotenv').config();
-const express = require('express');
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
-const path = require("path");
-const fs = require("fs");
+import Response from './Response.js';
+import ProductController from './api/ProductController.js';
 
-const Response = require("./Response");
-const ProductController = require('./api/ProductController');
-
+dotenv.config();
 {
     const app = express();
 
     app.use(express.json());
-    app.use(express.static(path.join(__dirname, 'wwwroot')));
+    app.use(express.static((new URL('wwwroot', import.meta.url)).href));
     app.use(cors());
 
     app.get("/api/products", async (req, res) => {
@@ -31,7 +29,7 @@ const ProductController = require('./api/ProductController');
     });
 
     app.get('/*', (req, res, next) => {
-        let pathFile = path.join(__dirname, 'wwwroot', `${req.path}.html`);
+        let pathFile = new URL(`wwwroot${req.path}.html`, import.meta.url);
         if (fs.existsSync(pathFile)) {
             res.end(fs.readFileSync(pathFile));
             return;

@@ -1,8 +1,5 @@
-'use strict';
-
-const Response = require('../Response');
-const fs = require("fs");
-const path = require("path");
+import Response from '../Response.js';
+import fs from "fs";
 
 class ProductController {
     #products;
@@ -10,7 +7,7 @@ class ProductController {
     constructor() {
         let baseUrl = `${process.env.SSL === 'true' ? 'https' : 'http'}://${process.env.ADDRESS}:${process.env.PORT}`;
 
-        let productsPath = path.join(__dirname, 'products.json');
+        let productsPath = new URL('./products.json',import.meta.url);
         let productsJson = fs.readFileSync(productsPath)
             .toString();
         this.#products = JSON.parse(productsJson ?? '[]');
@@ -38,4 +35,4 @@ class ProductController {
     }
 }
 
-module.exports = new ProductController();
+export default new ProductController();
