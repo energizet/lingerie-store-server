@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import _ from './donEnvConfig.js';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
@@ -7,7 +7,6 @@ import fs from 'fs';
 import Response from './Response.js';
 import ProductController from './api/ProductController.js';
 
-dotenv.config();
 {
     const app = express();
 
