@@ -2,4 +2,4 @@
 .vs
 .idea
 /wwwroot/img/*
-/api/items.json
+/api/products.json
